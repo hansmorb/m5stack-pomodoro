@@ -91,16 +91,6 @@ void loop() {
       currentState = STATE_IDLE;
     }
   }
-    
-  if (M5.BtnPWR.wasPressed()) {
-    drawScreen("Bye, love you!", 0);
-    playTone(1);
-    delay(3000);
-    M5.M5Ink.clear();
-    delay(1000);
-    currentState = STATE_IDLE;
-    M5.PowerDown();
-  }
 
   if (currentState != STATE_IDLE) {
     unsigned long timeNow = millis();
@@ -134,6 +124,17 @@ void loop() {
       drawScreen(statusBuf, minsRemaining);
       startTime = millis();     
     }
+  }
+
+  if (M5.BtnPWR.wasPressed()) {
+    drawScreen("Bye, love you!", 0);
+    playTone(1);
+    digitalWrite(LED_EXT_PIN,LOW);
+    delay(3000);
+    M5.M5Ink.clear();
+    delay(1000);
+    currentState = STATE_IDLE;
+    M5.shutdown();
   }
     
   M5.update();
